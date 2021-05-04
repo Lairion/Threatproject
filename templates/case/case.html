@@ -1,0 +1,34 @@
+{% extends "home/index.html" %}
+
+{% block content %}
+    <form class="row g-3" action="repeat/" method="post">
+        {% csrf_token %}
+        <div class="col-auto">
+            <label>Case </label>
+            <select class="form-select" size="3" multiple name="cases">
+                {% for case in cases %}
+                <option value="{{case.id}}">{{case.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <label>How many repeat</label>
+            <input class="form-control" type="number" name="repeat"/>
+        </div>
+        <div class="col-auto">
+            <input class="form-control btn btn-success" type="submit" value="Send"/>
+        </div>
+    </form>
+    <div class="row mt-5">
+        {% for case in cases %}
+            <div class="col-auto">
+                <h5>{{case.name}} </h5>
+                <ul>
+                    {% for result in case.results.all %}
+                    <li><p>{{result.data_create}}<p> {{result.message}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
